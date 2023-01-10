@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="sign section--bg" data-bg="img/section/section.jpg">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="sign__content">
+						{% include 'includes/alerts.html'%}
+						<!-- authorization form -->
+						<form action="{% url 'register' %}" method = 'POST' class="sign__form">
+						{% csrf_token %}
+							<a href={% url "home"%} class="sign__logo">
+								<img src={% static "img/default.png"%} alt="">
+							</a>
+							{%include 'includes/alerts.html'%}
+						<div class="form-row">
+							<div class="col form-group footer__title ">
+								<label >First name</label>
+							<div class="sign__group">
+								{{form.first_name}}
+							</div>
+						</div>
+						<div class="col form-group footer__title">
+							<label>Last name</label>
+							<div class="sign__group">
+								{{form.last_name}}
+							</div>
+						</div>
+						<div class="col form-group footer__title">
+							<label>Email Address</label>
+							<div class="sign__group">
+								{{form.email}}
+							</div>
+						</div>
+						<div class="col form-group footer__title">
+							<label>Phone Number</label>
+							<div class="sign__group">
+								{{form.phone_number}}
+							</div>
+						</div>
+						<div class="col form-group footer__title">
+							<label>Create password</label>
+							<div class="sign__group">
+								{{form.password}}
+							</div>
+						</div>
+						<div class="col form-group footer__title">
+							<label>Repeat password</label>
+							<div class="sign__group">
+								{{form.conform_password}}
+							</div>
+						</div>
+						</div>
+							 <button class="sign__btn" type="submit">Register</button>
+
+							<span class="sign__text"> have an account? <a href="{% url 'login'%}">Sign in!</a></span>
+
+							<span class="sign__text"><a href="{% url 'forgotPassword'%}">Forgot password?</a></span>
+							{{form.email.errors}}       
+							{{form.non_field_errors}} 
+						</form>
+						<!-- end authorization form -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- JS -->
+{% endblock %}

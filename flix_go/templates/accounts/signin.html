@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="sign section--bg" data-bg={%static "img/section/section.jpg"%}>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="sign__content">
+					{% if request.GET.command == 'verification' %}
+					<div class="continer mx-auto alert alert-info text-center"  role ='alert' style="max-width: 1024px; margin-top:100px;">
+						thank you for registring with us.  please check your Email [{{request.GET.email}}]  and verify account
+						<br>Already verified?<a href='{%url 'login'%}'>Login</a><br>
+					</div>
+					{% else %}
+					
+					<!-- authorization form -->
+					<form action="{% url 'login' %}" method = 'POST' class="sign__form">
+						{%include 'includes/alerts.html'%}
+						{% csrf_token %}
+						<a href={% url "home"%} class="sign__logo">
+							<img src={% static "img/default.png"%} alt="">
+						</a>
+						
+						<div class="sign__group">
+							<input type="email" class="sign__input" placeholder="Email" name = 'email'>
+						</div>
+						
+						<div class="sign__group">
+							<input type="password" class="sign__input" placeholder="Password" name ='password'>
+						</div>
+						
+						<div class="sign__group sign__group--checkbox">
+							<input id="remember" name="remember" type="checkbox" checked="checked">
+							<label for="remember">Remember Me</label>
+						</div>
+						
+						<button class="sign__btn" type="submit">Sign in</button>
+						
+						<span class="sign__text">Don't have an account? <a href="{% url 'register'%}">Sign up!</a></span>
+						
+						<span class="sign__text"><a href="{% url 'forgotPassword'%}">Forgot password?</a></span>
+					</form>
+					<!-- end authorization form -->
+					{%endif%}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- JS -->
+{% endblock %}

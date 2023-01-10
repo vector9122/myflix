@@ -1,0 +1,38 @@
+version: "2"
+services:
+  app:
+    build: ./flix_go
+    command: python manage.py runserver 0.0.0.0:9000
+    depends_on:
+            mysqldb:
+                condition: service_healthy
+    links:
+      - "mysqldb:database"
+    ports:
+      - "9000:9000"
+
+  mysqldb:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=FLIX_GO
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE_PORT=3306
+    volumes:
+      - ./db:/data/db
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+  mongodb:
+    image: mongo:latest
+    hostname: mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=flix_go
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    ports:
+      - 27017:27017
